@@ -13,22 +13,17 @@ class Solution(object):
         return bar_list
 
     def largestRectangleArea(self, height):
-        stack = [];
-        i = 0;
+        stack = []
         area = 0
-        while i < len(height):
-            if stack == [] or height[i] > height[stack[len(stack) - 1]]:
-                stack.append(i)
-            else:
+
+        for i in range(0, len(height)+1):
+            curt = -1 if i == (len(height)) else height[i]
+            while stack != [] and curt <= height[stack[len(stack) - 1]]:
                 curr = stack.pop()
                 width = i if stack == [] else i - stack[len(stack) - 1] - 1
                 area = max(area, width * height[curr])
-                i -= 1
-            i += 1
-        while stack != []:
-            curr = stack.pop()
-            width = i if stack == [] else len(height) - stack[len(stack) - 1] - 1
-            area = max(area, width * height[curr])
+            stack.append(i)
+
         return area
 
     def maximalRectangle(self, matrix):
@@ -49,9 +44,9 @@ class Solution(object):
 
         return max_area
 
-
+#push_back in C++ means insert at the end of the vector
 def main():
-    matrix = ["101101","111111","011011","111010","011111","110111"]
+    matrix = ["10100","10111","11111","10010"]
     c = Solution()
     print c.maximalRectangle(matrix)
     return None
